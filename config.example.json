@@ -1,0 +1,8 @@
+{
+    "token": "-- insert your discord token here --",
+    "cleanChannelNames": [
+        "welcome",
+        "news",
+        "memes"
+    ]
+}

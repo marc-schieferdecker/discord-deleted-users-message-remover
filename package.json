@@ -1,0 +1,14 @@
+{
+    "name": "discord-deleted-users-message-remover",
+    "version": "1.0.0",
+    "description": "Remove messages of deleted discord users from text channels",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Marc Schieferdecker",
+    "license": "MIT",
+    "dependencies": {
+        "discord.js": "^14"
+    }
+}
