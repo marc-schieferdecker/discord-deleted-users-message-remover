@@ -6,7 +6,7 @@ This script uses Discord.js to search through all text channels configured in th
 
 ## Usage
 
-Rename the `config.example.json` to `config.json` and set the discord api token in `token` ([how to create a token](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)).
+Rename the `config.example.json` to `config.json` and set the Discord API token in `token` ([how to create a token](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)).
 
 Then configure the list of text channels that you want to clean in `cleanChannelNames`.
 
@@ -24,7 +24,7 @@ Example:
 }
 ```
 
-If you want the script to delete the messages of deleted users in all text channels leave the `cleanChannelNames` array empty. You can configure channels to exclude from them run.
+If you want the script to delete the messages of deleted users in all text channels leave the `cleanChannelNames` array empty. You can configure channels to exclude from the run, or leave the `excludeChannelNames` array empty.
 
 Example:
 
@@ -45,10 +45,10 @@ After the configuration just run the script with node (`node main` or `npm start
 
 Currently only text channels can be cleaned. Maybe I will change that in the next version. Just create an issue if you need improvements.
 
-## Discords Rate Limits
+## Discords API rate limits
 
 The Discord API has rate limitations so the script will be slow and pause from time to time if the rate limit is reached. The script will continue after the rate limit is gone. Be patient!
 
-## No Bulk Delete
+## Why no bulk delete
 
 The script only deletes single messages and does not use a bulk delete feature by design. Bulk deletion of messages is only possible for messages that are not older than 2 weeks (Discord API limitation).
