@@ -31,7 +31,7 @@ client.on(Events.ClientReady, async bot => {
             // Fetch all messages of this channel page by page
             while (1) {
                 let messages = await channel.messages.fetch({ limit: 100, before: last_id, cache: false, force: true });
-                if (messages) {
+                if (messages.size > 0) {
                     last_id = messages.last().id;
                     counter += messages.size;
                     console.log(`Queried ${messages.size} (got ${counter} messages total) message of channel #${cleanChannel} from ${last_id} to ${messages.last().id}`);
