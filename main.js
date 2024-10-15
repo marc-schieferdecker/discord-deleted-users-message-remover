@@ -1,12 +1,12 @@
 const { Client, Events, GatewayIntentBits, ChannelType } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const { token, cleanChannelNames } = require('./config.json');
+const { token, cleanChannelNames, excludeChannelNames } = require('./config.json');
 
 /**
  * Output debug information about rate limits
  */
 client.rest.on('rateLimited', rateLimitData => {
-    console.log('rateLimit', rateLimitData);
+    console.log(`rateLimit for method ${rateLimitData.method} reached. Waiting ${rateLimitData.limit} seconds.`);
 });
 
 /**
@@ -15,8 +15,14 @@ client.rest.on('rateLimited', rateLimitData => {
 client.on(Events.ClientReady, async bot => {
     console.log('Running discord server cleaner');
     let textChannels = client.channels.cache.filter(c => c.type == ChannelType.GuildText);
+    let channelsToClean = cleanChannelNames;
 
-    for (let cleanChannel of cleanChannelNames) {
+    // If no clean channel names are given, clean all text channels that are not excluded by config
+    if (channelsToClean.length < 1) {
+        channelsToClean = textChannels.filter(c => !excludeChannelNames.includes(c.name)).map(c => c.name);
+    }
+
+    for (let cleanChannel of channelsToClean) {
         let cleanChannelId = textChannels.find(c => c.name == 'news').id;
         let channel = await bot.channels.fetch(cleanChannelId);
         if (channel) {
@@ -31,13 +37,13 @@ client.on(Events.ClientReady, async bot => {
                         last_id = msg.id;
                         if (msg.author.username === 'Deleted User' && msg.author.id === '456226577798135808') {
                             if (!msg.deleted) {
-                                console.log(cleanChannel, 'delete', msg.id, msg.author.username);
+                                console.log(`Channel #${cleanChannel}: delete msg id ${msg.id} by ${msg.author.username}`);
                                 await msg.delete();
-                                await new Promise(resolve => setTimeout(resolve, 1000));
                             }
                         }
                     }
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // Prevent GET method is rate limited
+                    await new Promise(resolve => setTimeout(resolve, 750));
                 }
                 catch (ex) {
                     console.warn(ex);

@@ -19,11 +19,27 @@ Example:
         "welcome",
         "news",
         "memes"
+    ],
+    "excludeChannelNames": []
+}
+```
+
+If you want the script to delete the messages of deleted users in all text channels leave the `cleanChannelNames` array empty. You can configure channels to exclude from them run.
+
+Example:
+
+```json
+{
+    "token": "ThIsIsYouRsecret.disCorD.apI-ToKendoNotShareIt",
+    "cleanChannelNames": [],
+    "excludeChannelNames": [
+        "mods",
+        "admins"
     ]
 }
 ```
 
-After the configuration just run the script with node (`node main`). The console output will tell you what is happening.
+After the configuration just run the script with node (`node main` or `npm start`). The console output will tell you what is happening.
 
 ## Limitations
 
