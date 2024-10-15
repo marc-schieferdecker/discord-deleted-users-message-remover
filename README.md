@@ -6,7 +6,11 @@ This script uses Discord.js to search through all text channels configured in th
 
 ## Usage
 
-Rename the `config.example.json` to `config.json` and set the Discord API token in `token` ([how to create a token](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)).
+Install [Node.js®](https://nodejs.org/en/download/package-manager) if you haven't already, then clone or download and unzip this repository. After that run `npm i` in the directory containing the files using a shell.
+
+Now [create a discord](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot) bot and [add the bot to your server](https://discordjs.guide/preparations/adding-your-bot-to-servers.html).
+
+Rename the `config.example.json` to `config.json` and set the Discord API token of your bot in `token`.
 
 Then configure the list of text channels that you want to clean in `cleanChannelNames`.
 

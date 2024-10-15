@@ -14,7 +14,7 @@ client.rest.on('rateLimited', rateLimitData => {
  */
 client.on(Events.ClientReady, async bot => {
     console.log('Running discord server cleaner');
-    let textChannels = client.channels.cache.filter(c => c.type == ChannelType.GuildText);
+    let textChannels = bot.channels.cache.filter(c => c.type == ChannelType.GuildText);
     let channelsToClean = cleanChannelNames;
 
     // If no clean channel names are given, clean all text channels that are not excluded by config
@@ -23,30 +23,36 @@ client.on(Events.ClientReady, async bot => {
     }
 
     for (let cleanChannel of channelsToClean) {
-        let cleanChannelId = textChannels.find(c => c.name == 'news').id;
+        let cleanChannelId = textChannels.find(c => c.name == cleanChannel).id;
         let channel = await bot.channels.fetch(cleanChannelId);
         if (channel) {
             let last_id = null;
             let counter = 0;
+            // Fetch all messages of this channel page by page
             while (1) {
-                try {
-                    let messages = await channel.messages.fetch({ limit: 100, before: last_id });
+                let messages = await channel.messages.fetch({ limit: 100, before: last_id, cache: false, force: true });
+                if (messages) {
+                    last_id = messages.last().id;
                     counter += messages.size;
                     console.log(`Queried ${messages.size} (got ${counter} messages total) message of channel #${cleanChannel} from ${last_id} to ${messages.last().id}`);
-                    for (let msg of messages.map(m => m)) {
-                        last_id = msg.id;
-                        if (msg.author.username === 'Deleted User' && msg.author.id === '456226577798135808') {
-                            if (!msg.deleted) {
-                                console.log(`Channel #${cleanChannel}: delete msg id ${msg.id} by ${msg.author.username}`);
-                                await msg.delete();
-                            }
+
+                    // Delete messages
+                    let deleteMessages = messages.filter(m => m.author.username === 'Deleted User' && m.author.id === '456226577798135808');
+                    for (let msg of deleteMessages.map(m => m)) {
+                        if (msg.deletable) {
+                            await msg.delete()
+                                .then(dmsg => console.log(`Channel #${cleanChannel}: deleted msg id ${dmsg.id} by ${dmsg.author.username}`))
+                                .catch(console.error);
+                        }
+                        else {
+                            console.error(`Channel #${cleanChannel}: msg id ${msg.id} by ${msg.author.username} can not be deleted`);
                         }
                     }
                     // Prevent GET method is rate limited
                     await new Promise(resolve => setTimeout(resolve, 750));
                 }
-                catch (ex) {
-                    console.warn(ex);
+                else {
+                    console.log(`Finished cleaning of channel #${cleanChannel}`);
                     break;
                 }
             }
