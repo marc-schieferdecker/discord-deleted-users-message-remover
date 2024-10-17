@@ -6,6 +6,8 @@ This script uses Discord.js to search through all text channels configured in th
 
 ## Use in existing discord.js project
 
+To use the "Deleted Users Messages" server cleaner run `npm i discord-deleted-users-message-remover` and import the `serverCleanerBot` function into your code. Then add the function to your client ready function.
+
 ```javascript
 import { serverCleanerBot } from 'discord-deleted-users-message-remover';
 
@@ -17,6 +19,7 @@ const excludeChannelNames = ["mods", "welcome"];
 client.on(Events.ClientReady, async bot => {
     await serverCleanerBot(bot, cleanChannelNames, excludeChannelNames);
 });
+```
 
 ## Standalone usage
 
