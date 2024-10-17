@@ -4,7 +4,21 @@ In Discord if a user get's deleted (or the account is closed) the messages of th
 
 This script uses Discord.js to search through all text channels configured in the config.json and deletes all messages where the user is a "Deleted User".
 
-## Usage
+## Use in existing discord.js project
+
+```javascript
+import { serverCleanerBot } from 'discord-deleted-users-message-remover';
+
+// Configuration
+const cleanChannelNames = [];
+const excludeChannelNames = ["mods", "welcome"];
+
+// Add the serverCleanerBot function to your client ready function
+client.on(Events.ClientReady, async bot => {
+    await serverCleanerBot(bot, cleanChannelNames, excludeChannelNames);
+});
+
+## Standalone usage
 
 Install [Node.js®](https://nodejs.org/en/download/package-manager) if you haven't already, then clone or download and unzip this repository. After that run `npm i` in the directory containing the files using a shell.
 

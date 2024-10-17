@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Remove messages of deleted discord users from text channels",
     "type": "module",
-    "main": "main.js",
+    "main": "src/functions.js",
     "scripts": {
         "start": "node main",
         "test": "echo \"Error: no test specified\" && exit 1"
