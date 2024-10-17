@@ -11,8 +11,6 @@ export async function serverCleanerBot(bot, cleanChannelNames, excludeChannelNam
     // Disable/enable logging output to console
     const logFn = logging ? console.log : () => { };
 
-    logFn('Running discord server cleaner');
-
     // Get all text channels of the server
     let textChannels = bot.channels.cache.filter(c => c.type == ChannelType.GuildText);
     let channelsToClean = cleanChannelNames;
