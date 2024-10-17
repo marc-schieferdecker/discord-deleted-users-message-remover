@@ -8,7 +8,6 @@ const config = createRequire(import.meta.url)("./config.json");
  */
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-
 /**
  * Output debug information about rate limits
  */
